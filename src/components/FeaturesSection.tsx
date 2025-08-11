@@ -72,7 +72,7 @@ export default function FeaturesSection({
       </div>
 
       {/* Crown (dominant symmetry class) */}
-      <div className="mb-1">
+      <div className="mb-3">
         <strong>Crown:</strong> {crown} | Rarity:{" "}
         <span className="text-2xl font-mono text-yellow-500">{crownStars}</span>
       </div>
