@@ -51,6 +51,7 @@ export default function FeaturesSection({
   /* —— rarity lookup —— */
   const passagesStars = getRarityStars("Passages", passages, bits);
   const evenStars     = getRarityStars("Evenness", ratio, bits);
+  const crownStars = getRarityStars("Crown", crown, bits);
 
   return (
     <section className="mt-10">
@@ -71,8 +72,9 @@ export default function FeaturesSection({
       </div>
 
       {/* Crown (dominant symmetry class) */}
-      <div className="mb-3">
-        <strong>Crown:</strong> {crown}
+      <div className="mb-1">
+        <strong>Crown:</strong> {crown} | Rarity:{" "}
+        <span className="text-2xl font-mono text-yellow-500">{crownStars}</span>
       </div>
 
       {/* Symmetries (details) */}

@@ -70,6 +70,50 @@ const passages160 = {
   '9':  '★★★★★',
 } as const;
 
+/* ───────── Crown rarity (256-bit) — empirical frequencies ─────────
+   Values are fractions of the collection for each "<rank>:<count>" crown,
+   aggregated from a 6×8192 sample. */
+   const crownFreq256: Record<string, number> = {
+    '2:1': 0.000956, '2:2': 0.001811, '2:3': 0.002747, '2:4': 0.002665,
+    '2:5': 0.001404, '2:6': 0.001200, '2:7': 0.000549, '2:8': 0.000244,
+    '2:9': 0.000081, '2:10': 0.000020,
+  
+    '3:1': 0.051290, '3:2': 0.095276, '3:3': 0.125977, '3:4': 0.122884,
+    '3:5': 0.091451, '3:6': 0.055257, '3:7': 0.028361, '3:8': 0.013143,
+    '3:9': 0.004313, '3:10': 0.001526, '3:11': 0.000509, '3:12': 0.000203,
+    '3:13': 0.000020,
+  
+    '4:1': 0.145203, '4:2': 0.016866, '4:3': 0.000997, '4:4': 0.000041,
+  
+    '5:1': 0.182678, '5:2': 0.020345, '5:3': 0.001831, '5:4': 0.000163,
+  
+    '6:1': 0.013529, '6:2': 0.000081,
+    '7:1': 0.013936, '7:2': 0.000041,
+    '8:1': 0.001099, '9:1': 0.000997,
+    '10:1': 0.000081, '11:1': 0.000020, '13:1': 0.000020,
+  
+    '—': 0.000183, // no symmetry detected
+  } as const;
+  
+  /** Map frequency to stars (non-linear, empirically chosen bins).
+   *  ≥12%  → ☆☆☆☆☆ (modal classes)
+   *   5–12% → ★☆☆☆☆ (common)
+   * 1.8–5% → ★★☆☆☆ (uncommon valley)
+   * 0.5–1.8% → ★★★☆☆ (rare ridge-to-tail)
+   * 0.12–0.5% → ★★★★☆ (very rare)
+   *  <0.12% → ★★★★★ (ultra-rare)
+   */
+  function starsCrown256(crown: string): string {
+    const p = crownFreq256[crown];
+    if (p === undefined) return '★★★★★+'; // unknown/out-of-sample
+    if (p >= 0.12)  return '☆☆☆☆☆';
+    if (p >= 0.05)  return '★☆☆☆☆';
+    if (p >= 0.018) return '★★☆☆☆';
+    if (p >= 0.005) return '★★★☆☆';
+    if (p >= 0.0012) return '★★★★☆';
+    return '★★★★★';
+  }
+
 /* ───────── API ───────── */
 /** Returns stars for a given trait value; uses ★★★★★+ for out-of-range. */
 export function getRarityStars(
@@ -83,10 +127,17 @@ export function getRarityStars(
     return bits === 256 ? stars256(r) : stars160(r);
   }
 
-  const passages = bits === 256 ? passages256 : passages160;
   if (trait === 'Passages') {
+    const table = bits === 256 ? passages256 : passages160;
     const str = String(value);
-    return passages[str] ?? passages.default;
+    return table[str] ?? table.default;
+  }
+
+  if (trait === 'Crown') {
+    // Crown value must be like "5:1", "3:4", or "—"
+    const k = String(value);
+    // Until we have 160-bit stats, reuse 256-bit empirical mapping.
+    return starsCrown256(k);
   }
 
   return null; // unknown trait
