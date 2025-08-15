@@ -12,7 +12,7 @@ import AboutSection from './components/AboutSection';
 import IncludesSection from './components/IncludesSection';
 import { useResponsiveSvg } from './hooks/useResponsiveSvg';
 import FeaturesSection from './components/FeaturesSection';
-
+import { useAutoThemeClass } from './hooks/useAutoThemeClass'
 
 function App() {
   const svgRef = useRef<HTMLDivElement>(null);
@@ -43,6 +43,8 @@ function App() {
   };  
 
   const [showSymmetries, setShowSymmetries] = useState(false);
+
+  useAutoThemeClass()
 
   useResponsiveSvg(svgRef);
 
