@@ -30,12 +30,7 @@ HashCanon turns a hash value into a precise circular diagram where **every pixel
   The visualization itself is **agnostic** to the hash algorithm: you can paste any valid hex.
 - The image is pure data, not “seeded art”: two different hashes **cannot** produce the same diagram.
 
-## Learn more
-- White Paper (algorithms): `WhitePaper.ipynb`  
-- Famous Blockchain Hashes: `FamousBlockchainHashes.ipynb`  
-- Philosophy: `ArtManifesto.md`  
-- Contacts & resources: https://hashcanon.github.io/resources/
-
 ## Community & License
+- Contacts & resources: https://hashcanon.github.io/resources/
 - Discussions: https://github.com/HashCanon/hashcanon.github.io/discussions  
 - Code — MIT; Visuals & docs — CC BY-NC 4.0
