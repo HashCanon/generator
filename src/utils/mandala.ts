@@ -37,7 +37,7 @@ export function generate({
   onHex,
   showSymmetries,
 }: GenerateOptions) {
-  const hex = resolveInput(bits, hashInputRef, textInputRef, statusRef, svgRef, showSymmetries);
+  const hex = resolveInput(bits, hashInputRef, textInputRef, statusRef, svgRef, showSymmetries, onHex);
   if (!hex) return;
   drawMandala(hex, bits, svgRef, showSymmetries ?? true);
   onHex?.(hex);
@@ -49,7 +49,8 @@ function resolveInput(
   textRef?: RefObject<HTMLTextAreaElement>,
   statusRef?: RefObject<HTMLDivElement>,
   svgRef?: RefObject<HTMLDivElement>,
-  showSymmetries = true
+  showSymmetries = true,
+  onHex?: (hex: string) => void
 ): string | null {
   const expectedLength = bits / 4;
   const rawHash = hashRef?.current?.value.trim() || '';
@@ -75,6 +76,7 @@ function resolveInput(
       hex = '0x' + hexFull.slice(-expectedLength);
       setStatus(`Text input → SHA-256 → ${hex}`, 'green');
       drawMandala(hex, bits, svgRef!, showSymmetries);
+      onHex?.(hex);
     });
     return null;
   } else if (isValidHash) {
