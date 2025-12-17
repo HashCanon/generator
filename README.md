@@ -1,41 +1,41 @@
-# HashJing Demo
+# HashCanon Generator
+> **Invertible hash visualization** — a deterministic, bijective mapping between a 160/256-bit hash and a circular bit-matrix image (“mandala”) — and back.
 
-HashJing is a generative art experiment at the intersection of cryptography and East Asian symbolism.  
-This repository contains an interactive page that renders SHA hashes as radial mandalas.
+[**▶︎ Launch the Generator**](https://hashcanon.github.io/generator/)
 
-## Features
+- Project docs: https://github.com/HashCanon/hashcanon.github.io  
+- Contacts & resources: https://hashcanon.github.io/resources/
 
-- Generate SVG mandalas from a hash or arbitrary text input
-- Supports 256-bit and 160-bit hash formats
-- Automatic feature analysis:
-  - Bit balance (balanced/unbalanced)
-  - Passage count from center to edge
-  - Rare sealed configurations
-- Download as SVG or PNG
-- Responsive layout
+## What is this?
+HashCanon turns a hash value into a precise circular diagram where **every pixel is a bit**. The mapping is **deterministic and invertible**: with the fixed layout, you can recover the original hash from the image.
 
-## Documentation
+## Try it (30 seconds)
+1. Open the live page and click the big diagram to randomize.  
+2. Paste your own value:  
+   - a **256-bit hash** (`0x` + 64 hex chars), or  
+   - a **160-bit value** (`0x` + 40 hex chars), or  
+   - type any **text** — it will be hashed **locally** (SHA-256) and visualized.
+3. Toggle **160/256** mode when needed.
+4. See the **traits** below the image.
 
-- White paper: [WhitePaper.ipynb](https://github.com/DataSattva/hashjing/blob/main/WhitePaper.ipynb)
-- Live version: [datasattva.github.io/hashjing-demo](https://datasattva.github.io/hashjing-demo/)
-    
+## What the traits mean
+- **Passages** — how many zero-bit “corridors” reach the outer ring (sealed = 0).
+- **Crown** — the strongest circular symmetry, shown as `rank:count` (e.g. `4:1`).
+- **Evenness** — how close the bit mix is to 50/50.
 
-## Contributing
+**Rarity stars** reflect how uncommon a value is in random hashes (based on empirical frequencies). Technical details of how we compute these tables — in CONTRIBUTING.
 
-Developer setup and contribution guidelines are in
-https://github.com/DataSattva/hashjing-demo/blob/main/CONTRIBUTING.md
+## Notes
+- Text → hash uses **SHA-256** in the browser’s WebCrypto.  
+  The visualization itself is **agnostic** to the hash algorithm: you can paste any valid hex.
+- The image is pure data, not “seeded art”: two different hashes **cannot** produce the same diagram.
 
-## Community & Support
+## Learn more
+- White Paper (algorithms): `WhitePaper.ipynb`  
+- Famous Blockchain Hashes: `FamousBlockchainHashes.ipynb`  
+- Philosophy: `ArtManifesto.md`  
+- Contacts & resources: https://hashcanon.github.io/resources/
 
-[![Join the discussion](https://img.shields.io/github/discussions/DataSattva/hashjing?logo=github)](https://github.com/DataSattva/hashjing/discussions)
-
-Questions, ideas or bug reports?  
-Open a thread in [**HashJing Discussions**](https://github.com/DataSattva/hashjing/discussions) and let’s talk!
-
-For a detailed list of HashJing contacts and resources, see the page [**Contacts and Resources**](https://datasattva.github.io/hashjing-res/).
-
-## License
-
-- Code: MIT
-- Visuals: CC BY-NC 4.0
-    
+## Community & License
+- Discussions: https://github.com/HashCanon/hashcanon.github.io/discussions  
+- Code — MIT; Visuals & docs — CC BY-NC 4.0
