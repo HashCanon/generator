@@ -8,8 +8,7 @@ import {
 } from './utils/mandala';
 import { ContactBlock } from './components/ContactBlock';
 import { MandalaControls } from './components/MandalaControls';
-import AboutSection from './components/AboutSection';
-import IncludesSection from './components/IncludesSection';
+import InfoSection from './components/InfoSection';
 import { useResponsiveSvg } from './hooks/useResponsiveSvg';
 import FeaturesSection from './components/FeaturesSection';
 import { useAutoThemeClass } from './hooks/useAutoThemeClass'
@@ -108,8 +107,7 @@ function App() {
           onGenerate={handleGenerate}
           showSymmetries={showSymmetries}
         />
-        <IncludesSection />
-        <AboutSection />
+        <InfoSection />
         <ContactBlock />
       </main>
     </>
