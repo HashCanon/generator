@@ -21,7 +21,6 @@ interface Props {
   showSymmetries: boolean;
 }
 
-
 export function MandalaControls({
   svgRef,
   hashBits,
@@ -54,6 +53,21 @@ export function MandalaControls({
     runGenerate(bits);
   };
 
+  // Trigger generate on Enter (textarea keeps newline on Shift+Enter)
+  const handleHashKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onGenerate();
+    }
+  };
+
+  const handleTextKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      onGenerate();
+    }
+  };
+
   return (
     <section className="space-y-4 mt-0">
       <h2 className="text-center text-2xl font-semibold tracking-tight">
@@ -64,6 +78,7 @@ export function MandalaControls({
         ref={hashInputRef}
         type="text"
         placeholder="Enter 0x... custom hash (64 hex chars)"
+        onKeyDown={handleHashKeyDown}
         onChange={() => {
           if (hashInputRef.current?.value.trim()) {
             textInputRef.current!.value = "";
@@ -76,6 +91,7 @@ export function MandalaControls({
         ref={textInputRef}
         placeholder="Or enter text to hash..."
         rows={3}
+        onKeyDown={handleTextKeyDown}
         onChange={() => {
           if (textInputRef.current?.value.trim()) {
             hashInputRef.current!.value = "";
@@ -84,7 +100,7 @@ export function MandalaControls({
         className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
       />
 
-      <div className="flex justify-center items-center gap-4 text-sm text-center">    
+      <div className="flex justify-center items-center gap-4 text-sm text-center">
         <span className="whitespace-nowrap">Hash type:</span>
         <label className="flex items-center gap-1">
           <input
@@ -107,10 +123,11 @@ export function MandalaControls({
           160-bit
         </label>
       </div>
+
       <div
-          ref={effectiveStatusRef}
-          id="status"
-          className="break-words text-center flex-wrap text-sm text-muted-foreground min-h-[1.25rem]"
+        ref={effectiveStatusRef}
+        id="status"
+        className="break-words text-center flex-wrap text-sm text-muted-foreground min-h-[1.25rem]"
       />
 
       <Button
