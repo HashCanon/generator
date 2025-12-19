@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 type Email   = { email: string;   caption: string; description: string };
 type Discord = { discord: string; caption: string; description: string };
 type XHandle = { x: string;       caption: string; description: string };
+type MediaLink = { url: string; caption: string; description: string };
 
 type Contacts = {
   emails:  Email[];
@@ -13,6 +14,7 @@ type Contacts = {
 
 type Media = {
   x?: XHandle[];
+  links?: MediaLink[];
 };
 
 /* each resource item has exactly one dynamic URL field + caption + description */
@@ -99,26 +101,44 @@ export const ContactBlock = () => {
             </div>
           </div>
 
-          {/* MEDIA (X/Twitter) */}
-          {(data.media?.x?.length ?? 0) > 0 && (
+          {/* MEDIA */}
+          {(((data.media?.x?.length ?? 0) > 0) || ((data.media?.links?.length ?? 0) > 0)) && (
             <div className="space-y-3">
               <h3 className="text-xl font-semibold text-center">Media</h3>
               <div className="space-y-3 text-base leading-relaxed">
-                {data.media!.x!.map(({ x, caption, description }) => (
-                  <p key={x}>
-                    <strong>{caption}: </strong>
-                    <a
-                      href={`https://x.com/${x.replace("@", "")}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-blue-400 underline hover:text-blue-600"
-                    >
-                      {x}
-                    </a>
-                    <br />
-                    {description}
-                  </p>
-                ))}
+                {(data.media?.x?.length ?? 0) > 0 &&
+                  data.media!.x!.map(({ x, caption, description }) => (
+                    <p key={`x:${x}`}>
+                      <strong>{caption}: </strong>
+                      <a
+                        href={`https://x.com/${x.replace("@", "")}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-400 underline hover:text-blue-600"
+                      >
+                        {x}
+                      </a>
+                      <br />
+                      {description}
+                    </p>
+                  ))}
+
+                {(data.media?.links?.length ?? 0) > 0 &&
+                  data.media!.links!.map(({ url, caption, description }) => (
+                    <p key={`link:${url}`}>
+                      <strong>{caption}: </strong>
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-400 underline hover:text-blue-600"
+                      >
+                        {url}
+                      </a>
+                      <br />
+                      {description}
+                    </p>
+                  ))}
               </div>
             </div>
           )}
