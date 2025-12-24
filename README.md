@@ -19,9 +19,12 @@ HashCanon turns a hash value into a precise circular diagram where **every pixel
 4. See the **traits** below the image.
 
 ## What the traits mean
+- **Evenness** — how close the bit mix is to 50/50.
 - **Passages** — how many zero-bit “corridors” reach the outer ring (sealed = 0).
 - **Crown** — the strongest circular symmetry, shown as `rank:count` (e.g. `4:1`).
-- **Evenness** — how close the bit mix is to 50/50.
+- **Symmetries / Ranks** — total symmetry segments found, plus a histogram by rank: `rank:count` (e.g. `2:5, 3:4`).
+- **Symmetry slices (Show)** — list of repeating motifs as `start-end: hex`, with **1-based sector indices** and **wrap-around ranges** (e.g. `60-4`). 
+
 
 **Rarity stars** reflect how uncommon a value is in random hashes (based on empirical frequencies). Technical details of how we compute these tables — in CONTRIBUTING.
 

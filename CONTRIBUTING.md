@@ -15,7 +15,7 @@ npm run dev
 * `src/` — UI & feature logic (mandala rendering, traits).
 * `src/utils/bitMath.ts` — bit helpers (popcount, etc.).
 * `src/utils/featureAnalysis.ts` — Passages, Evenness.
-* `src/utils/symmetry.ts` — symmetry ranks (Crown).
+* `src/utils/symmetry.ts` — symmetry detection, ranks, and Crown.
 * `src/utils/rarity.ts` — **empirical rarity tables** used by the UI.
 * `scripts/traits_distribution.ts` — one-shot script to recompute distributions.
 
@@ -85,6 +85,8 @@ npm run dev
 ## Trait logic parity
 
 `src/utils/featureAnalysis.ts` and `src/utils/symmetry.ts` implement the same logic the CLI uses when building distributions. Rarity stars in the UI read frequencies from `src/utils/rarity.ts` which you refresh from CLI outputs.
+
+`findSymmetries(...)` returns motifs with start sector, length, and the hex substring; the UI can display all slices as `start-end: motif` using **1-based sectors** and **wrap-aware ranges** (e.g. `63-2`).
 
 ## Community, Support & License
 
