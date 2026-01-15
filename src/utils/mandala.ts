@@ -226,7 +226,7 @@ function polarToCartesian(cx: number, cy: number, r: number, angle: number) {
 }
 
 /* ─────────── Download helpers ─────────── */
-export function downloadSVG(filename = 'hashjing-mandala') {
+export function downloadSVG(filename = 'hashcanon-mandala') {
   const svg = document.querySelector('#svg-container svg');
   if (!svg) return;
 
@@ -243,7 +243,7 @@ export function downloadSVG(filename = 'hashjing-mandala') {
   URL.revokeObjectURL(url);
 }
 
-export function downloadPNG(filename = 'hashjing-mandala') {
+export function downloadPNG(filename = 'hashcanon-mandala') {
   const svgElement = document.querySelector('#svg-container svg') as SVGSVGElement;
   if (!svgElement) return;
 
