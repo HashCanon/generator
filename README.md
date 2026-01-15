@@ -18,6 +18,9 @@ HashCanon turns a hash value into a precise circular diagram where **every pixel
 3. Toggle **160/256** mode when needed.
 4. See the **traits** below the image.
 
+Tip: you can share a specific mandala via URL:
+`/generator/?h=0x...&sym=1` (symmetries on) or `sym=0` (off).
+
 ## What the traits mean
 - **Evenness** — how close the bit mix is to 50/50.
 - **Passages** — how many zero-bit “corridors” reach the outer ring (sealed = 0).

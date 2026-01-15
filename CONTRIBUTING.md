@@ -7,8 +7,12 @@ Thanks for helping improve HashCanon Generator.
 ```bash
 npm install
 npm run dev
-# open http://localhost:5175/
+# open http://localhost:5175/generator/
 ```
+
+## Deep links
+Generator supports `?h=0x...` and optional `&sym=0|1` to control symmetry overlays.
+
 
 ## Repository structure (key parts)
 
