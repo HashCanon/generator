@@ -13,7 +13,7 @@ import { useResponsiveSvg } from './hooks/useResponsiveSvg';
 import FeaturesSection from './components/FeaturesSection';
 import { useAutoThemeClass } from './hooks/useAutoThemeClass'
 
-function parseDeepLinkHash(): { hex: string; bits: 256 | 160 } | null {
+function parseDeepLinkHash(): { hex: string; bits: 256 | 160; showSymmetries?: boolean } | null {
   // Accept both "?0x..." and "?h=0x..."
   const raw = window.location.search.replace(/^\?/, '');
   if (!raw) return null;
@@ -25,9 +25,19 @@ function parseDeepLinkHash(): { hex: string; bits: 256 | 160 } | null {
   const is256 = /^0x[0-9a-fA-F]{64}$/.test(candidate);
   if (!is160 && !is256) return null;
 
+  // sym=1|0|true|false|on|off|yes|no (optional)
+  const symRaw = sp.get('sym');
+  let show: boolean | undefined = undefined;
+  if (symRaw !== null) {
+    const v = symRaw.trim().toLowerCase();
+    if (v === '1' || v === 'true' || v === 'yes' || v === 'on') show = true;
+    if (v === '0' || v === 'false' || v === 'no' || v === 'off') show = false;
+  }
+
   return {
     hex: candidate.toLowerCase(),
     bits: (is160 ? 160 : 256) as 256 | 160,
+    showSymmetries: show,
   };
 }
 
@@ -74,16 +84,25 @@ function App() {
       setHashBits(dl.bits);
       setCurrentHex(dl.hex);
 
+      // Apply symmetries flag from URL if present.
+      // This also syncs the toggle UI state.
+      if (dl.showSymmetries !== undefined) {
+        setShowSymmetries(dl.showSymmetries);
+      }
+
       // Best-effort populate the input field (if it exists).
       if (hashInputRef.current) {
         hashInputRef.current.value = dl.hex;
       }
 
       // Render immediately using existing low-level draw.
-      drawMandala(dl.hex, dl.bits, svgRef, showSymmetries);
+      const sym = dl.showSymmetries ?? showSymmetries;
+      drawMandala(dl.hex, dl.bits, svgRef, sym);
 
-      // Optional: normalize URL to "?h=0x..."
-      window.history.replaceState(null, '', `?h=${encodeURIComponent(dl.hex)}`);
+      // Optional: normalize URL to "?h=0x..." (preserve sym if specified).
+      const symPart =
+        dl.showSymmetries === undefined ? '' : `&sym=${dl.showSymmetries ? '1' : '0'}`;
+      window.history.replaceState(null, '', `?h=${encodeURIComponent(dl.hex)}${symPart}`);
       return;
     }
 
@@ -103,6 +122,18 @@ function App() {
       drawMandala(currentHex, hashBits, svgRef, showSymmetries);
     }
   }, [showSymmetries, currentHex, hashBits]);
+
+  useEffect(() => {
+  // Rewrite the whole query string from scratch based on the current state.
+  if (!currentHex) return;
+
+  const sym = showSymmetries ? '1' : '0';
+  window.history.replaceState(
+    null,
+    '',
+    `?h=${encodeURIComponent(currentHex)}&sym=${sym}`
+  );
+}, [currentHex, showSymmetries]);
 
   return (
     <>
